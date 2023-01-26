@@ -10,7 +10,8 @@ import {AuthService} from "../../Services/auth.service";
 })
 export class RegisterComponent {
 
-
+   standard:string="standard";
+  professionnel:string="professionnel"
   RegisterForm: FormGroup;
 
 
@@ -21,13 +22,14 @@ export class RegisterComponent {
   ) {
 
     this.RegisterForm= this.fb.group({
-      firstName:[''],
-      lastName:[''],
-      phone:[''],
-      name:[''],
-      address:[''],
+      nom:[''],
+      prenom:[''],
+      tel:[''],
+      adresse:[''],
       email:[''],
-      password:['']
+      cin:[''],
+      password:[''],
+      compteName:['standard']
     });
   }
 

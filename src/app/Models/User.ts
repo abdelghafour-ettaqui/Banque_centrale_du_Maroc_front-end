@@ -2,12 +2,12 @@ export interface User{
   id: string;
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: string;
+  prenom: string;
+  nom: string;
+  tel: string;
+  adresse: string;
   cin: string;
-  accountType: string;
+  compteName: string;
 
   grantType:string;
   username:string;

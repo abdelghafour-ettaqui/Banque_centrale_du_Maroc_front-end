@@ -7,9 +7,10 @@ import { LoginClientComponent } from './Pages/login-client/login.component';
 import { RegisterComponent } from './Pages/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./Shared/auth.interceptor";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginAgentComponent } from "./Pages/login-agent/login-agent.component";
 import { LoginFormComponent } from './Components/login-form/login-form.component';
+import {EmailValidatorDirective} from "./FormValidation/EmailValidatorDirective";
 
 
 @NgModule({
@@ -18,14 +19,16 @@ import { LoginFormComponent } from './Components/login-form/login-form.component
     LoginClientComponent,
     RegisterComponent,
     LoginAgentComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    EmailValidatorDirective
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        FormsModule,
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

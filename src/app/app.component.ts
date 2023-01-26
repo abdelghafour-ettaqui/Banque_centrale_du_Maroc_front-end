@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Banque_centrale_du_Maroc_front-end';
+
+
 }

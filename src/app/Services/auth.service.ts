@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {User} from "../Models/User";
 import {catchError, map, Observable, throwError} from "rxjs";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import {environment} from "../../environments/environment.development";
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,11 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class AuthService {
 
   currentUser={};
+  url!: string;
 
-  endpoint: String = 'http://localhost:8080';
-  headers = new HttpHeaders({'Content-Type':'application/json'});
-
-  helper = new JwtHelperService();
-
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router) {
+   this.url = environment.url;
+  }
 
   login(user: User,role:string) {
 
@@ -30,19 +29,24 @@ export class AuthService {
     console.log(user)
 
     return this.http
-      .post<any>(`${this.endpoint}/token`, user)
+      .post<any>(`${this.url}/token`, user)
+
       .subscribe(
         (res: any) => {
-          console.log(res)
-          // const decodedToken = this.helper.decodeToken(res.token);
-          localStorage.setItem('access_token',res.accessToken );
-          localStorage.setItem('refresh_token',res.refreshToken );
-          localStorage.setItem('role',res.role);
-          role === "Client" ? localStorage.setItem('id',res.client.id):localStorage.setItem('id',res.agent.id);
+          if(res!=null){
 
-          res.role == "CLIENT" ?  this.router.navigate(['dashboard-client/']) : this.router.navigate(['dashboard-agent/'])
+            localStorage.setItem('access_token',res.accessToken );
+            localStorage.setItem('refresh_token',res.refreshToken );
+            localStorage.setItem('role',res.role);
+            role === "Client" ? localStorage.setItem('id',res.client.id):localStorage.setItem('id',res.agent.id);
+
+            res.role == "CLIENT" ?  this.router.navigate(['dashboard-client/']) : this.router.navigate(['dashboard-agent/'])
+          }
+
         }),
-      (err:any)=>{console.log(JSON.parse(err))
+      (err:any)=>{
+      console.log(JSON.parse(err)
+      )
       }
   }
 
@@ -51,10 +55,10 @@ export class AuthService {
   register(user: User) {
     console.log(user)
     return this.http
-      .post<any>(`${this.endpoint}/`, user)
+      .post<any>(`${this.url}/client/register`, user)
       .subscribe(
         (res: any) => {
-          this.router.navigate(['log-in']);
+          this.router.navigate(['login']);
         }),
       (err:any)=>{console.log(JSON.parse(err))
       }

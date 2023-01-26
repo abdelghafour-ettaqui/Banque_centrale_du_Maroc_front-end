@@ -1,7 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { AuthService } from "../../Services/auth.service";
 import { Router } from "@angular/router";
+import {emailValidator} from "../../FormValidation/EmailValidatorDirective";
 
 
 @Component({
@@ -13,19 +14,19 @@ export class LoginFormComponent {
 
   @Input() role!:string;
 
+
   loginForm: FormGroup;
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginForm= this.fb.group({
-      email:[''],
-      password:['']
+      email:new FormControl('',[Validators.email,Validators.required]),
+      password:new FormControl('',[Validators.required])
     });
   }
 
-  ngOnInit(){}
 
   loginUser(){
     this.authService.login(this.loginForm.value,this.role);
